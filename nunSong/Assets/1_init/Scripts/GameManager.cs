@@ -119,12 +119,30 @@ public class GameManager : MonoBehaviour
         ui_songDetail.SetActive(false);
     }
 
+    public void OnClickBacktoMain()
+    {
+        Debug.Log("뒤로가기 버튼 누름");
+        gamestate = E_STATE.HOMEMAIN;
+    }
+
+    public void OnClickSelect()
+    {
+        Debug.Log("곡 상세 버튼 누름");
+        gamestate = E_STATE.SONGDETAIL;
+    }
+
     void SongDetail()
     {
         ui_gameIntro.SetActive(false);
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(false);
         ui_songDetail.SetActive(true); //곡 상세 화면을 띄움
+    }
+
+        public void OnClickBacktoSongSelect()
+    {
+        Debug.Log("뒤로가기 버튼 누름");
+        gamestate = E_STATE.SELECTSONG;
     }
 
     void GameEnd()
