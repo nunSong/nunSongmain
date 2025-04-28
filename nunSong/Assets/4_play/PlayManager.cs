@@ -29,10 +29,9 @@ public class PlayManager : MonoBehaviour
         score += 100;
 
         // 1000점마다 combo 증가
-        int newCombo = score / 1000;
-        if (newCombo > combo)
+        if (score % 1000 == 0)
         {
-            combo = newCombo;
+            combo += 1;
         }
 
         SetText();
@@ -41,6 +40,6 @@ public class PlayManager : MonoBehaviour
     public void SetText()
     {
         scoreText.text = score.ToString();
-        comboText.text = combo.ToString();
+        comboText.text = $"{combo}/100"; // combo를 "n/100" 형식으로 표시
     }
 }
