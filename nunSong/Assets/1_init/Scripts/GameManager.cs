@@ -17,19 +17,20 @@ public class GameManager : MonoBehaviour
 
     E_STATE gamestate; //게임 상태 변수
 
+    [Header("UI")]
     public GameObject ui_gameIntro; //게임 로고 및 온보딩 화면
     public GameObject ui_mainCover;
     public GameObject ui_setting;
+    public GameObject ui_songSelect;
+    public GameObject ui_songDetail;
 
     //Setting 화면별
+    [Header("Setting UI")]
     public GameObject setting_ui_noteSpeed;
     public GameObject setting_ui_correction;
     public GameObject setting_ui_sound;
     public GameObject setting_ui_key;
     public GameObject setting_ui_graphics;
-
-    public GameObject ui_songSelect;
-    public GameObject ui_songDetail;
 
     void Start()
     {
