@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
         NONE = 0, //첫 숫자를 설정
         INTRO,
         HOMEMAIN,
+        SETTING,
         SELECTSONG,
         SONGDETAIL,
         END
@@ -18,6 +19,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject ui_gameIntro; //게임 로고 및 온보딩 화면
     public GameObject ui_mainCover;
+    public GameObject ui_setting;
+
+    //Setting 화면별
+    public GameObject setting_ui_noteSpeed;
+    public GameObject setting_ui_correction;
+    public GameObject setting_ui_sound;
+    public GameObject setting_ui_key;
+    public GameObject setting_ui_graphics;
+
     public GameObject ui_songSelect;
     public GameObject ui_songDetail;
 
@@ -52,6 +62,11 @@ public class GameManager : MonoBehaviour
                 gamestate = E_STATE.NONE;
                 GameHomeMain();
                 break;
+
+            case E_STATE.SETTING:
+                gamestate = E_STATE.NONE;
+                Settings();
+                break;
             
             case E_STATE.SELECTSONG:
                 gamestate = E_STATE.NONE;
@@ -75,6 +90,7 @@ public class GameManager : MonoBehaviour
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(false);
         ui_songDetail.SetActive(false);
+        ui_setting.SetActive(false);
 
         yield return new WaitForSeconds(2f); //2초 기다림
 
@@ -87,6 +103,7 @@ public class GameManager : MonoBehaviour
         ui_mainCover.SetActive(true); //메인화면을 띄움
         ui_songSelect.SetActive(false);
         ui_songDetail.SetActive(false);
+        ui_setting.SetActive(false);
     }
 
     public void OnClickGameStart()
@@ -98,8 +115,75 @@ public class GameManager : MonoBehaviour
     public void OnClickGameSetting()
     {
         Debug.Log("설정 버튼 누름");
+        gamestate = E_STATE.SETTING;
     }
 
+    void Settings()
+    {
+        //메인 화면 통제
+        ui_gameIntro.SetActive(false);
+        ui_mainCover.SetActive(false);
+        ui_songSelect.SetActive(false);
+        ui_songDetail.SetActive(false);
+        ui_setting.SetActive(true); //설정 화면을 띄움
+
+        //설정 화면 통제
+        setting_ui_noteSpeed.SetActive(true); //기본 설정창
+        setting_ui_correction.SetActive(false);
+        setting_ui_sound.SetActive(false);
+        setting_ui_key.SetActive(false);
+        setting_ui_graphics.SetActive(false);
+    }
+    public void OnClickSettingNoteSpeed()
+    {
+        Debug.Log("노트 속도 설정 버튼 누름");
+        setting_ui_noteSpeed.SetActive(true);
+        setting_ui_correction.SetActive(false);
+        setting_ui_sound.SetActive(false);
+        setting_ui_key.SetActive(false);
+        setting_ui_graphics.SetActive(false);
+    }
+    public void OnClickSettingCorrection()
+    {
+        Debug.Log("정정 설정 버튼 누름");
+        setting_ui_noteSpeed.SetActive(false);
+        setting_ui_correction.SetActive(true);
+        setting_ui_sound.SetActive(false);
+        setting_ui_key.SetActive(false);
+        setting_ui_graphics.SetActive(false);
+    }
+    public void OnClickSettingSound()
+    {
+        Debug.Log("사운드 설정 버튼 누름");
+        setting_ui_noteSpeed.SetActive(false);
+        setting_ui_correction.SetActive(false);
+        setting_ui_sound.SetActive(true);
+        setting_ui_key.SetActive(false);
+        setting_ui_graphics.SetActive(false);
+    }
+    public void OnClickSettingKey()
+    {
+        Debug.Log("키 설정 버튼 누름");
+        setting_ui_noteSpeed.SetActive(false);
+        setting_ui_correction.SetActive(false);
+        setting_ui_sound.SetActive(false);
+        setting_ui_key.SetActive(true);
+        setting_ui_graphics.SetActive(false);
+    }
+    public void OnClickSettingGraphics()
+    {
+        Debug.Log("그래픽 설정 버튼 누름");
+        setting_ui_noteSpeed.SetActive(false);
+        setting_ui_correction.SetActive(false);
+        setting_ui_sound.SetActive(false);
+        setting_ui_key.SetActive(false);
+        setting_ui_graphics.SetActive(true);
+    }
+    public void OnClickSettingBack()
+    {
+        Debug.Log("뒤로가기 버튼 누름");
+        gamestate = E_STATE.HOMEMAIN;
+    }
     public void OnClickGameRecord()
     {
         Debug.Log("Record 버튼 누름");
