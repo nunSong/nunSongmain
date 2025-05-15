@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnClickSettingCorrection()
     {
-        Debug.Log("정정 설정 버튼 누름");
+        Debug.Log("판정 보정 설정 버튼 누름");
         setting_ui_noteSpeed.SetActive(false);
         setting_ui_correction.SetActive(true);
         setting_ui_sound.SetActive(false);
