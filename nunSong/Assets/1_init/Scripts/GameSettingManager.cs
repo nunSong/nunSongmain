@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class GameSettingManager : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class GameSettingManager : MonoBehaviour
     [SerializeField] private AudioSource soundEffectSource;
     [SerializeField] private AudioSource correctSoundSource;
 
+    [Header("Key Bindings")]
+    [SerializeField] private TMP_Text qKeyText;
+    [SerializeField] private TMP_Text wKeyText;
+    [SerializeField] private TMP_Text eKeyText;
+    [SerializeField] private TMP_Text rKeyText;
+        private TMP_Text selectedKeyText = null; // 현재 키를 바꾸려는 텍스트
+    private HashSet<KeyCode> assignedKeys = new HashSet<KeyCode>(); // 이미 할당된 키를 추적하기 위한 집합
+
     void Start()
     {
         UpdateNoteSpeedDisplay();
@@ -45,10 +54,19 @@ public class GameSettingManager : MonoBehaviour
         bgmVolumeSlider.onValueChanged.AddListener(UpdateSoundVolume);
         soundEffectSlider.onValueChanged.AddListener(UpdateSoundEffectVolume);
         correctVolumeSlider.onValueChanged.AddListener(UpdateCorrectVolume);
+
+        // 키 초기 설정
+        qKeyText.text = "Q";
+        wKeyText.text = "W";
+        eKeyText.text = "E";
+        rKeyText.text = "R";
+
+        RegisterInitialKeys(); // 초기 키 등록
     }
 
     void Update()
     {
+        HandleKeyInputs();
 
     }
 
@@ -107,6 +125,105 @@ public class GameSettingManager : MonoBehaviour
             correctSoundSource.volume = value;
     }
 
+    // Key Bindings
+    private void HandleKeyInputs()
+    {
+        if (selectedKeyText != null)
+        {
+            foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    // 알파벳 또는 방향키만 허용
+                    if ((key >= KeyCode.A && key <= KeyCode.Z) ||
+                        key == KeyCode.LeftArrow || key == KeyCode.RightArrow ||
+                        key == KeyCode.UpArrow || key == KeyCode.DownArrow)
+                    {
+                        if (assignedKeys.Contains(key))
+                        {
+                            Debug.Log("이미 사용 중인 키입니다.");
+                            return;
+                        }
+
+                        // 기존 키 제거
+                        KeyCode oldKey;
+                        if (TryGetAssignedKey(selectedKeyText, out oldKey))
+                            assignedKeys.Remove(oldKey);
+
+                        // 새 키 등록
+                        selectedKeyText.text = KeyToDisplayName(key);
+                        assignedKeys.Add(key);
+                        selectedKeyText = null;
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("알파벳 또는 방향키만 사용할 수 있습니다.");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    // 현재 텍스트에 저장된 키코드를 파싱
+    private bool TryGetAssignedKey(TMP_Text text, out KeyCode key)
+    {
+        return System.Enum.TryParse(text.text, out key);
+    }
+
+    private string KeyToDisplayName(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.UpArrow: return "↑";
+            case KeyCode.DownArrow: return "↓";
+            case KeyCode.LeftArrow: return "←";
+            case KeyCode.RightArrow: return "→";
+            default: return key.ToString(); // A~Z 등은 원래 이름 그대로
+        }
+    }
+
+    // 버튼에서 호출
+    public void OnClickQ() => StartKeyRebind(qKeyText);
+    public void OnClickW() => StartKeyRebind(wKeyText);
+    public void OnClickE() => StartKeyRebind(eKeyText);
+    public void OnClickR() => StartKeyRebind(rKeyText);
+
+    private void StartKeyRebind(TMP_Text keyText)
+    {
+        selectedKeyText = keyText;
+        Debug.Log($"{keyText.name} 키 입력 대기 중...");
+    }
+
+    private void RegisterInitialKeys()
+    {
+        TryAddKey(qKeyText.text);
+        TryAddKey(wKeyText.text);
+        TryAddKey(eKeyText.text);
+        TryAddKey(rKeyText.text);
+    }
+
+    private void TryAddKey(string keyName)
+    {
+        if (System.Enum.TryParse(keyName, out KeyCode key))
+        {
+            assignedKeys.Add(key);
+        }
+    }
+
+    public void onClickResetKeyBindings()
+    {
+        // 텍스트 초기화
+        qKeyText.text = "Q";
+        wKeyText.text = "W";
+        eKeyText.text = "E";
+        rKeyText.text = "R";
+        assignedKeys.Clear();
+        RegisterInitialKeys();
+        Debug.Log("키 바인딩이 초기화되었습니다.");
+    }
+
     // Save & Reset
     public void ResetSettings()
     {
@@ -117,6 +234,17 @@ public class GameSettingManager : MonoBehaviour
         bgmVolumeSlider.value = 0.5f;
         soundEffectSlider.value = 0.5f;
         correctVolumeSlider.value = 0.5f;
+
+        // 키 초기화
+        qKeyText.text = "Q";
+        wKeyText.text = "W";
+        eKeyText.text = "E";
+        rKeyText.text = "R";
+
+        // 키 재등록
+        assignedKeys.Clear();
+        RegisterInitialKeys();
+
         // ShowSavePopup();
         Debug.Log("------설정이 초기화되었습니다.------");
         Debug.Log($"노트 속도: {noteSpeed}");
