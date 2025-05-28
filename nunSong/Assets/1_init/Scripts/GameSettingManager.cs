@@ -32,8 +32,19 @@ public class GameSettingManager : MonoBehaviour
     [SerializeField] private TMP_Text wKeyText;
     [SerializeField] private TMP_Text eKeyText;
     [SerializeField] private TMP_Text rKeyText;
-        private TMP_Text selectedKeyText = null; // 현재 키를 바꾸려는 텍스트
+    private TMP_Text selectedKeyText = null; // 현재 키를 바꾸려는 텍스트
     private HashSet<KeyCode> assignedKeys = new HashSet<KeyCode>(); // 이미 할당된 키를 추적하기 위한 집합
+
+    [Header("Display Settings")]
+    [SerializeField] private Toggle backgroundToggle;
+    [SerializeField] private TMP_Text screenModeText;
+    [SerializeField] private TMP_Text graphicQualityText;
+
+    private string[] screenModes = { "전체 화면", "창 모드" };
+    private int currentScreenModeIndex = 1; // 기본 창 모드
+
+    private string[] graphicQualities = { "낮음", "중간", "높음" };
+    private int currentGraphicQualityIndex = 2; // 기본 높음
 
     void Start()
     {
@@ -62,6 +73,12 @@ public class GameSettingManager : MonoBehaviour
         rKeyText.text = "R";
 
         RegisterInitialKeys(); // 초기 키 등록
+
+        backgroundToggle.isOn = true; // 기본값: 켬
+        backgroundToggle.onValueChanged.AddListener(OnBackgroundToggleChanged);
+
+        screenModeText.text = screenModes[currentScreenModeIndex];
+        graphicQualityText.text = graphicQualities[currentGraphicQualityIndex];
     }
 
     void Update()
@@ -222,6 +239,85 @@ public class GameSettingManager : MonoBehaviour
         assignedKeys.Clear();
         RegisterInitialKeys();
         Debug.Log("키 바인딩이 초기화되었습니다.");
+    }
+
+        // 플레이 배경 토글
+    private void OnBackgroundToggleChanged(bool isOn)
+    {
+        Debug.Log("플레이 배경: " + (isOn ? "켬" : "끔"));
+        // 여기서 배경 이미지 켜기/끄기 구현
+    }
+
+    // 화면 모드
+    public void OnClickScreenModeLeft()
+    {
+        if (currentScreenModeIndex > 0)
+        {
+            currentScreenModeIndex--;
+            UpdateScreenModeText();
+        }
+    }
+    public void OnClickScreenModeRight()
+    {
+        if (currentScreenModeIndex < screenModes.Length - 1)
+        {
+            currentScreenModeIndex++;
+            UpdateScreenModeText();
+        }
+    }
+    private void UpdateScreenModeText()
+    {
+        screenModeText.text = screenModes[currentScreenModeIndex];
+        Debug.Log("화면 모드 변경: " + screenModes[currentScreenModeIndex]);
+
+        // 실제 적용
+        if (currentScreenModeIndex == 0)
+        {
+            // 전체 화면
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.ExclusiveFullScreen);
+        }
+        else
+        {
+            // 창 모드 (기본 해상도 1280x720)
+            Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+        }
+    }
+
+    // 그래픽 품질
+    public void OnClickGraphicQualityLeft()
+    {
+        if (currentGraphicQualityIndex > 0)
+        {
+            currentGraphicQualityIndex--;
+            UpdateGraphicQualityText();
+        }
+    }
+    public void OnClickGraphicQualityRight()
+    {
+        if (currentGraphicQualityIndex < graphicQualities.Length - 1)
+        {
+            currentGraphicQualityIndex++;
+            UpdateGraphicQualityText();
+        }
+    }
+    private void UpdateGraphicQualityText()
+    {
+        graphicQualityText.text = graphicQualities[currentGraphicQualityIndex];
+        Debug.Log("그래픽 품질: " + graphicQualities[currentGraphicQualityIndex]);
+
+        // 선택된 품질에 따라 렌더링 해상도 비율 설정
+        switch (currentGraphicQualityIndex)
+        {
+            case 0: // 낮음 (720p 수준)
+                ScalableBufferManager.ResizeBuffers(0.67f, 0.67f); // 약 720p
+                break;
+            case 1: // 중간 (900p 수준)
+                ScalableBufferManager.ResizeBuffers(0.83f, 0.83f); // 약 900p
+                break;
+            case 2: // 높음 (1080p 수준)
+                ScalableBufferManager.ResizeBuffers(1.0f, 1.0f); // 1:1
+                break;
+        }
     }
 
     // Save & Reset
