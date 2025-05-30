@@ -27,6 +27,7 @@ public class ScoreManager : MonoBehaviour
         score += finalScore;
         scoreText.text = score.ToString();
 
+        // 🏆 피버포인트 누적
         FeverManager.Instance.AddFeverPoints(baseScore);
 
         if (result != "Miss")
@@ -40,7 +41,6 @@ public class ScoreManager : MonoBehaviour
     }
 
     public int GetScore() => score;
-
     public void ResetScore()
     {
         score = 0;

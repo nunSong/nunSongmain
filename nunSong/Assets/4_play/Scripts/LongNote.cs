@@ -2,21 +2,19 @@ using UnityEngine;
 
 public class LongNote : MonoBehaviour
 {
-    public KeyCode key;
+    public int laneNumber;  // 1~4
     public float speed = 100f;
-    public float holdDuration = 2f;  // 롱노트 유지 시간(초)
+    public float holdDuration = 2f;
     private bool isHolding = false;
     private float holdTimer = 0f;
-
-    private float comboIncreaseInterval = 1f;  // n초당 1콤보
+    private float comboIncreaseInterval = 1f;
     private float comboTimer = 0f;
 
     void Update()
     {
-        // 노트 하강
         transform.Translate(Vector3.down * speed * Time.deltaTime);
+        KeyCode key = LaneManager.Instance.GetKeyForLane(laneNumber);
 
-        // 롱노트 시작 조건 (키 입력 및 판정 성공)
         if (!isHolding && Input.GetKeyDown(key))
         {
             float distance = Mathf.Abs(transform.position.y - JudgmentLine.Instance.transform.position.y);
@@ -27,15 +25,10 @@ public class LongNote : MonoBehaviour
                 holdTimer = holdDuration;
                 ScoreManager.Instance.AddScore(result);
                 LifeGauge.Instance.Increase(result);
-                Debug.Log($"Long Note Start! distance: {distance}, result: {result}");
-            }
-            else
-            {
-                Debug.Log($"Long Note Miss! distance: {distance}");
+                Debug.Log("Long Note Start!");
             }
         }
 
-        // 롱노트 유지 중
         if (isHolding)
         {
             holdTimer -= Time.deltaTime;
@@ -45,10 +38,9 @@ public class LongNote : MonoBehaviour
             {
                 comboTimer = 0f;
                 ComboManager.Instance.IncreaseCombo();
-                FeverManager.Instance.AddFeverPoints(100);  // 피버 포인트 누적 (선택)
+                FeverManager.Instance.AddFeverPoints(100);
             }
 
-            // 유지 시간 종료 시 성공 처리
             if (holdTimer <= 0)
             {
                 isHolding = false;
@@ -56,18 +48,16 @@ public class LongNote : MonoBehaviour
                 Debug.Log("Long Note Completed!");
             }
 
-            // 키 입력 중단 시 실패 처리
             if (Input.GetKeyUp(key))
             {
                 isHolding = false;
                 LifeGauge.Instance.Reduce();
-                ComboManager.Instance.ResetCombo();  // (선택) 실패 시 콤보 초기화
+                ComboManager.Instance.ResetCombo();
                 Destroy(gameObject);
                 Debug.Log("Long Note Missed!");
             }
         }
 
-        // 화면 아래로 벗어날 경우 Miss 처리
         if (transform.position.y < -10f && !isHolding)
         {
             ComboManager.Instance.ResetCombo();

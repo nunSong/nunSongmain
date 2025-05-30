@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6094129832754226767
+--- !u!1 &4836038782596962651
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5885814907479302919}
-  - component: {fileID: 1712854288709669903}
-  - component: {fileID: 2552227014075536131}
-  - component: {fileID: 5577515268991634969}
+  - component: {fileID: 7166028666692948391}
+  - component: {fileID: 4842657338489074829}
+  - component: {fileID: 7519819698209280617}
+  - component: {fileID: 1834490709440939051}
   m_Layer: 5
-  m_Name: Note
+  m_Name: LongNote 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5885814907479302919
+--- !u!224 &7166028666692948391
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094129832754226767}
+  m_GameObject: {fileID: 4836038782596962651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -35,24 +35,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_AnchoredPosition: {x: -200, y: 500}
+  m_SizeDelta: {x: 200, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1712854288709669903
+--- !u!222 &4842657338489074829
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094129832754226767}
+  m_GameObject: {fileID: 4836038782596962651}
   m_CullTransparentMesh: 1
---- !u!114 &2552227014075536131
+--- !u!114 &7519819698209280617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094129832754226767}
+  m_GameObject: {fileID: 4836038782596962651}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -76,17 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5577515268991634969
+--- !u!114 &1834490709440939051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094129832754226767}
+  m_GameObject: {fileID: 4836038782596962651}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e79f0b7ec2821b848b45e6a73376ac7a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a5e2c12ece4bab4795453c57ea23438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 273
+  laneNumber: 2
   speed: 100
+  holdDuration: 2
