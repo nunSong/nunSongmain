@@ -4,9 +4,10 @@ public class JudgmentLine : MonoBehaviour
 {
     public static JudgmentLine Instance;
 
-    public float perfectRange = 50f;
-    public float greatRange = 100f;
-    public float goodRange = 150f;
+    // 접근 가능한 범위 값들 (인스펙터에 노출 방지)
+    [HideInInspector] public readonly float perfectRange = 50f;  // ±50ms=0.05f로 추후 변경, 아래도 동일
+    [HideInInspector] public readonly float greatRange = 100f;    // ±80ms
+    [HideInInspector] public readonly float goodRange = 150f;     // ±120ms
 
     private void Awake()
     {
@@ -15,25 +16,9 @@ public class JudgmentLine : MonoBehaviour
 
     public string Judge(float distance)
     {
-        if (distance <= perfectRange)
-        {
-            Debug.Log($"JudgementLine distance: {distance}, result: Perfect");
-            return "Perfect";
-        }
-        else if (distance <= greatRange)
-        {
-            Debug.Log($"JudgementLine distance: {distance}, result: Great");
-            return "Great";
-        }
-        else if (distance <= goodRange)
-        {
-            Debug.Log($"JudgementLine distance: {distance}, result: Good");
-            return "Good";
-        }
-        else
-        {
-            Debug.Log($"JudgementLine distance: {distance}, result: Miss");
-            return "Miss";
-        }
+        if (distance <= perfectRange) return "Perfect";
+        else if (distance <= greatRange) return "Great";
+        else if (distance <= goodRange) return "Good";
+        else return "Miss";
     }
 }

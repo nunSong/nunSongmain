@@ -5,16 +5,19 @@ public class LifeGauge : MonoBehaviour
 {
     public static LifeGauge Instance;
     public Slider lifeSlider;
-    private float life = 100f;
+    private float life;
+    private readonly float maxLife = 100f;
+    private readonly float autoDecrease = 1f;
+    private readonly float perfectRecovery = 3f;
+    private readonly float greatRecovery = 1f;
+    private readonly float missDamage = 5f;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() { Instance = this; }
 
     private void Start()
     {
-        lifeSlider.maxValue = 100f;
+        life = maxLife;
+        lifeSlider.maxValue = maxLife;
         lifeSlider.value = life;
     }
 
@@ -22,22 +25,18 @@ public class LifeGauge : MonoBehaviour
     {
         if (!FeverManager.Instance.IsFeverActive())
         {
-            life -= 1f * Time.deltaTime;
+            life -= autoDecrease * Time.deltaTime;
             lifeSlider.value = life;
         }
 
-        if (life <= 0)
-        {
-            GameOver();
-        }
+        if (life <= 0) GameOver();
     }
 
     public void Increase(string grade)
     {
-        if (grade == "Perfect") life += 3f;
-        else if (grade == "Great") life += 1f;
-        // Good은 변화 없음
-        if (life > 100f) life = 100f;
+        if (grade == "Perfect") life += perfectRecovery;
+        else if (grade == "Great") life += greatRecovery;
+        if (life > maxLife) life = maxLife;
         lifeSlider.value = life;
     }
 
@@ -45,17 +44,11 @@ public class LifeGauge : MonoBehaviour
     {
         if (!FeverManager.Instance.IsFeverActive())
         {
-            life -= 5f;
+            life -= missDamage;
             lifeSlider.value = life;
         }
-        if (life <= 0)
-        {
-            GameOver();
-        }
+        if (life <= 0) GameOver();
     }
 
-    private void GameOver()
-    {
-        Debug.Log("Game Over!");
-    }
+    private void GameOver() { Debug.Log("Game Over!"); }
 }
