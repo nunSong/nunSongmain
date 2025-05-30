@@ -5,6 +5,9 @@ public class LifeGauge : MonoBehaviour
 {
     public static LifeGauge Instance;
     public Slider lifeSlider;
+    public Image backgroundImage;
+    public Image fillImage;
+
     private float life;
     private readonly float maxLife = 100f;
     private readonly float autoDecrease = 1f;
@@ -19,6 +22,10 @@ public class LifeGauge : MonoBehaviour
         life = maxLife;
         lifeSlider.maxValue = maxLife;
         lifeSlider.value = life;
+
+        // 색상 설정
+        if (backgroundImage != null) backgroundImage.color = Color.white;          // 배경색: 하얀색
+        if (fillImage != null) fillImage.color = Color.gray;                       // 채우기 색: 회색
     }
 
     private void Update()
