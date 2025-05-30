@@ -6,7 +6,7 @@ public class FeverManager : MonoBehaviour
     public GameObject feverText;
     private bool feverActive = false;
     private readonly float duration = 10f;
-    private readonly int feverThreshold = 50000;
+    private readonly int feverThreshold = 3000; //추후 50000으로 변경
     private float timer = 0f;
     private int feverPoints = 0;
 

@@ -16,9 +16,22 @@ public class JudgmentLine : MonoBehaviour
 
     public string Judge(float distance)
     {
-        if (distance <= perfectRange) return "Perfect";
-        else if (distance <= greatRange) return "Great";
-        else if (distance <= goodRange) return "Good";
-        else return "Miss";
+        string result;
+        if (distance <= perfectRange)
+            result = "Perfect";
+        else if (distance <= greatRange)
+            result = "Great";
+        else if (distance <= goodRange)
+            result = "Good";
+        else
+            result = "Miss";
+
+        Debug.Log($"JudgementLine distance: {distance}, result: {result}");
+        
+        // 판정 UI 호출
+        JudgmentEffectManager.Instance.ShowJudgment(result);
+
+        return result;
     }
+
 }
