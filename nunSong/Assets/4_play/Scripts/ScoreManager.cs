@@ -17,6 +17,7 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
     }
 
+
     public void AddScore(string result)
     {
         int baseScore = result switch

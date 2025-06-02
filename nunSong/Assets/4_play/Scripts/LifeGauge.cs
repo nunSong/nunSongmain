@@ -57,5 +57,9 @@ public class LifeGauge : MonoBehaviour
         if (life <= 0) GameOver();
     }
 
-    private void GameOver() { Debug.Log("Game Over!"); }
+    private void GameOver()
+    {
+        Debug.Log("Game Over!");
+        MusicManager.Instance.StopMusic();  // 음악 정지 
+    }
 }
