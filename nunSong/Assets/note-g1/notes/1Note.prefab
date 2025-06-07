@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneNumber: 1
-  speed: 200
+  speed: 150
