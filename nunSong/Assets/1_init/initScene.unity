@@ -20588,6 +20588,11 @@ MonoBehaviour:
   detail_g2: {fileID: 1388361777}
   detail_g3: {fileID: 1185833341}
   detail_g4: {fileID: 1929572901}
+  previewClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: ea789c3dfa72f9940a3883039d3800a9, type: 3}
 --- !u!1 &1917777282
 GameObject:
   m_ObjectHideFlags: 0

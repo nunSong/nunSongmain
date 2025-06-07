@@ -71,6 +71,10 @@ public class GameManager : MonoBehaviour
     public GameObject detail_g4;
     private GameObject[] detailUIs;
 
+    [Header("Grade별 미리듣기 Audio")]
+    public AudioClip[] previewClips; // Grade 1~4용 미리듣기
+    private AudioSource previewSource;
+
     void Start()
     {
         string sceneState = PlayerPrefs.GetString("InitSceneState", "INTRO");
@@ -320,14 +324,19 @@ public class GameManager : MonoBehaviour
 
     void SongSelect()
     {
+        StopAwakeBGM();
         ui_gameIntro.SetActive(false);
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(true); //곡 선택 화면을 띄움
         ui_songDetail.SetActive(false);
 
+        if (previewSource == null)
+            previewSource = gameObject.AddComponent<AudioSource>();
+
         gradeCovers = new GameObject[] { cover_g1, cover_g2, cover_g3, cover_g4 };
         currentGradeIndex = 0;
         UpdateGradeCover();
+        PlayPreviewForCurrentGrade();
     }
 
     public void OnClickPrevGrade()
@@ -348,6 +357,7 @@ public class GameManager : MonoBehaviour
         {
             gradeCovers[i].SetActive(i == currentGradeIndex);
         }
+        PlayPreviewForCurrentGrade();
     }
 
     public void OnClickBacktoMain()
@@ -373,6 +383,26 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < detailUIs.Length; i++)
         {
             detailUIs[i].SetActive(i == currentGradeIndex);
+        }
+        PlayPreviewForCurrentGrade();
+    }
+        private void StopAwakeBGM()
+    {
+        var smBGM = GameObject.Find("SMbgm");
+        if (smBGM != null)
+        {
+            var audio = smBGM.GetComponent<AudioSource>();
+            if (audio != null && audio.isPlaying)
+                audio.Stop();
+        }
+    }
+
+    private void PlayPreviewForCurrentGrade()
+    {
+        if (previewClips.Length > currentGradeIndex && previewClips[currentGradeIndex] != null)
+        {
+            previewSource.clip = previewClips[currentGradeIndex];
+            previewSource.Play();
         }
     }
 
