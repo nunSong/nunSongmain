@@ -56,6 +56,25 @@ public class GameManager : MonoBehaviour
     public GameObject setting_ui_key;
     public GameObject setting_ui_graphics;
 
+    [Header("Album Cover")]
+    public GameObject cover_g1;
+    public GameObject cover_g2;
+    public GameObject cover_g3;
+    public GameObject cover_g4;
+    private int currentGradeIndex = 0;
+    private GameObject[] gradeCovers;
+
+    [Header("Song Detail UI by Grade")]
+    public GameObject detail_g1;
+    public GameObject detail_g2;
+    public GameObject detail_g3;
+    public GameObject detail_g4;
+    private GameObject[] detailUIs;
+
+    [Header("Grade별 미리듣기 Audio")]
+    public AudioClip[] previewClips; // Grade 1~4용 미리듣기
+    private AudioSource previewSource;
+
     void Start()
     {
         string sceneState = PlayerPrefs.GetString("InitSceneState", "INTRO");
@@ -220,6 +239,41 @@ public class GameManager : MonoBehaviour
         gamestate = E_STATE.SELECTSONG;
     }
 
+    private void StopPreviewAudio()
+    {
+        if (previewSource != null && previewSource.isPlaying)
+            previewSource.Stop();
+    }
+
+    public void OnClickGamePlay()
+    {
+        StopPreviewAudio();
+        Debug.Log("게임시작 버튼 누름");
+
+        string sceneName = "";
+        switch (currentGradeIndex)
+        {
+            case 0:
+                sceneName = "playScene1";
+                break;
+            case 1:
+                sceneName = "playScene2";
+                break;
+            case 2:
+                sceneName = "playScene3";
+                break;
+            case 3:
+                sceneName = "playScene4";
+                break;
+            default:
+                Debug.LogError("유효하지 않은 Grade Index: " + currentGradeIndex);
+                return;
+        }
+
+        Debug.Log("씬 로드: " + sceneName);
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void OnClickGameSetting()
     {
         Debug.Log("설정 버튼 누름");
@@ -305,10 +359,40 @@ public class GameManager : MonoBehaviour
 
     void SongSelect()
     {
+        StopAwakeBGM();
         ui_gameIntro.SetActive(false);
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(true); //곡 선택 화면을 띄움
         ui_songDetail.SetActive(false);
+
+        if (previewSource == null)
+            previewSource = gameObject.AddComponent<AudioSource>();
+
+        gradeCovers = new GameObject[] { cover_g1, cover_g2, cover_g3, cover_g4 };
+        currentGradeIndex = 0;
+        UpdateGradeCover();
+        PlayPreviewForCurrentGrade();
+    }
+
+    public void OnClickPrevGrade()
+    {
+        currentGradeIndex = (currentGradeIndex - 1 + gradeCovers.Length) % gradeCovers.Length;
+        UpdateGradeCover();
+    }
+
+    public void OnClickNextGrade()
+    {
+        currentGradeIndex = (currentGradeIndex + 1) % gradeCovers.Length;
+        UpdateGradeCover();
+    }
+
+    private void UpdateGradeCover()
+    {
+        for (int i = 0; i < gradeCovers.Length; i++)
+        {
+            gradeCovers[i].SetActive(i == currentGradeIndex);
+        }
+        PlayPreviewForCurrentGrade();
     }
 
     public void OnClickBacktoMain()
@@ -329,6 +413,32 @@ public class GameManager : MonoBehaviour
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(false);
         ui_songDetail.SetActive(true); //곡 상세 화면을 띄움
+        detailUIs = new GameObject[] { detail_g1, detail_g2, detail_g3, detail_g4 };
+
+        for (int i = 0; i < detailUIs.Length; i++)
+        {
+            detailUIs[i].SetActive(i == currentGradeIndex);
+        }
+        PlayPreviewForCurrentGrade();
+    }
+        private void StopAwakeBGM()
+    {
+        var smBGM = GameObject.Find("SMbgm");
+        if (smBGM != null)
+        {
+            var audio = smBGM.GetComponent<AudioSource>();
+            if (audio != null && audio.isPlaying)
+                audio.Stop();
+        }
+    }
+
+    private void PlayPreviewForCurrentGrade()
+    {
+        if (previewClips.Length > currentGradeIndex && previewClips[currentGradeIndex] != null)
+        {
+            previewSource.clip = previewClips[currentGradeIndex];
+            previewSource.Play();
+        }
     }
 
     public void OnClickBacktoSongSelect()
@@ -372,6 +482,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("ActivateSongDetailUI", 1); // 표시 플래그 저장
         SceneManager.LoadScene("InitScene");
     }
+    public void SetCurrentGradeIndex(int index)
+    {
+        currentGradeIndex = index;
+    }
+
+    public int GetCurrentGradeIndex() => currentGradeIndex;
     
     public void BindUI(
     GameObject intro,
@@ -385,19 +501,19 @@ public class GameManager : MonoBehaviour
     GameObject key,
     GameObject graphics
 )
-{
-    ui_gameIntro = intro;
-    ui_mainCover = main;
-    ui_setting = setting;
-    ui_songSelect = select;
-    ui_songDetail = detail;
+    {
+        ui_gameIntro = intro;
+        ui_mainCover = main;
+        ui_setting = setting;
+        ui_songSelect = select;
+        ui_songDetail = detail;
 
-    setting_ui_noteSpeed = note;
-    setting_ui_correction = latency;
-    setting_ui_sound = sound;
-    setting_ui_key = key;
-    setting_ui_graphics = graphics;
+        setting_ui_noteSpeed = note;
+        setting_ui_correction = latency;
+        setting_ui_sound = sound;
+        setting_ui_key = key;
+        setting_ui_graphics = graphics;
 
-    Debug.Log("<color=green>GameManager: UI 재연결 완료!</color>");
-}
+        Debug.Log("<color=green>GameManager: UI 재연결 완료!</color>");
+    }
 }

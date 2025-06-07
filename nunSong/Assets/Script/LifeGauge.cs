@@ -61,5 +61,6 @@ public class LifeGauge : MonoBehaviour
     {
         Debug.Log("Game Over!");
         MusicManager.Instance.StopMusic();  // 음악 정지 
+        UnityEngine.SceneManagement.SceneManager.LoadScene("ResultScene");
     }
 }
