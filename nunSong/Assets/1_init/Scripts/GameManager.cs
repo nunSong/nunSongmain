@@ -482,6 +482,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("ActivateSongDetailUI", 1); // 표시 플래그 저장
         SceneManager.LoadScene("InitScene");
     }
+    public void SetCurrentGradeIndex(int index)
+    {
+        currentGradeIndex = index;
+    }
+
+    public int GetCurrentGradeIndex() => currentGradeIndex;
     
     public void BindUI(
     GameObject intro,
@@ -495,19 +501,19 @@ public class GameManager : MonoBehaviour
     GameObject key,
     GameObject graphics
 )
-{
-    ui_gameIntro = intro;
-    ui_mainCover = main;
-    ui_setting = setting;
-    ui_songSelect = select;
-    ui_songDetail = detail;
+    {
+        ui_gameIntro = intro;
+        ui_mainCover = main;
+        ui_setting = setting;
+        ui_songSelect = select;
+        ui_songDetail = detail;
 
-    setting_ui_noteSpeed = note;
-    setting_ui_correction = latency;
-    setting_ui_sound = sound;
-    setting_ui_key = key;
-    setting_ui_graphics = graphics;
+        setting_ui_noteSpeed = note;
+        setting_ui_correction = latency;
+        setting_ui_sound = sound;
+        setting_ui_key = key;
+        setting_ui_graphics = graphics;
 
-    Debug.Log("<color=green>GameManager: UI 재연결 완료!</color>");
-}
+        Debug.Log("<color=green>GameManager: UI 재연결 완료!</color>");
+    }
 }

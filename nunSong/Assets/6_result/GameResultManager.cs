@@ -1,9 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameResultManager : MonoBehaviour
 {
+    [Header("Result UI")]
+    [SerializeField] private GameObject[] gradeCoverCanvases;
+    [SerializeField] private TMP_Text resultScoreText;
+
     [Header("Buttons")]
     [SerializeField] private Button goToMainButton;
     [SerializeField] private Button restartButton;
@@ -26,5 +31,17 @@ public class GameResultManager : MonoBehaviour
         {
             GameManager.Instance.OnClickSelectSongDetailFromMain();
         });
+
+        UpdateResultUI();
+    }
+
+    private void UpdateResultUI()
+    {
+        int gradeIndex = GameManager.Instance.GetCurrentGradeIndex();
+        for (int i = 0; i < gradeCoverCanvases.Length; i++)
+            gradeCoverCanvases[i].SetActive(i == gradeIndex);
+
+        int score = ScoreManager.Instance.GetScore();
+        resultScoreText.text = score.ToString("D6");
     }
 }
