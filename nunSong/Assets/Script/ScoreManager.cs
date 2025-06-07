@@ -7,6 +7,11 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     private int score = 0;
 
+    public int perfectCount { get; private set; }
+    public int greatCount { get; private set; }
+    public int goodCount { get; private set; }
+    public int missCount { get; private set; }
+
     private readonly int perfectScore = 1000;
     private readonly int greatScore = 700;
     private readonly int goodScore = 300;
@@ -28,6 +33,14 @@ public class ScoreManager : MonoBehaviour
             _ => missScore
         };
 
+        switch (result)
+        {
+            case "Perfect": perfectCount++; break;
+            case "Great": greatCount++; break;
+            case "Good": goodCount++; break;
+            case "Miss": missCount++; break;
+        }
+
         int finalScore = FeverManager.Instance.IsFeverActive() ? baseScore * 2 : baseScore;
         score += finalScore;
         scoreText.text = score.ToString();
@@ -38,5 +51,10 @@ public class ScoreManager : MonoBehaviour
     }
 
     public int GetScore() => score;
-    public void ResetScore() { score = 0; scoreText.text = "0"; }
+    public void ResetScore()
+    {
+        score = 0;
+        perfectCount = greatCount = goodCount = missCount = 0;
+        scoreText.text = "0";
+    }
 }

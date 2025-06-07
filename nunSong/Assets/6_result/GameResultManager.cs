@@ -14,6 +14,12 @@ public class GameResultManager : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private Button selectSongButton;
 
+    [Header("Result Texts")]
+    [SerializeField] private TMP_Text perfectText;
+    [SerializeField] private TMP_Text greatText;
+    [SerializeField] private TMP_Text goodText;
+    [SerializeField] private TMP_Text missText;
+
     void Start()
     {
         // 버튼에 이벤트 연결
@@ -43,5 +49,10 @@ public class GameResultManager : MonoBehaviour
 
         int score = ScoreManager.Instance.GetScore();
         resultScoreText.text = score.ToString("D6");
+
+        perfectText.text = ScoreManager.Instance.perfectCount.ToString();
+        greatText.text   = ScoreManager.Instance.greatCount.ToString();
+        goodText.text    = ScoreManager.Instance.goodCount.ToString();
+        missText.text    = ScoreManager.Instance.missCount.ToString();
     }
 }

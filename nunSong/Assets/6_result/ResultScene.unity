@@ -1802,6 +1802,10 @@ MonoBehaviour:
   goToMainButton: {fileID: 995992241}
   restartButton: {fileID: 1415850250}
   selectSongButton: {fileID: 1729739471}
+  perfectText: {fileID: 335522288}
+  greatText: {fileID: 1297604376}
+  goodText: {fileID: 1043306414}
+  missText: {fileID: 1210977163}
 --- !u!4 &656359157
 Transform:
   m_ObjectHideFlags: 0
