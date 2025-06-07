@@ -239,6 +239,41 @@ public class GameManager : MonoBehaviour
         gamestate = E_STATE.SELECTSONG;
     }
 
+    private void StopPreviewAudio()
+    {
+        if (previewSource != null && previewSource.isPlaying)
+            previewSource.Stop();
+    }
+
+    public void OnClickGamePlay()
+    {
+        StopPreviewAudio();
+        Debug.Log("게임시작 버튼 누름");
+
+        string sceneName = "";
+        switch (currentGradeIndex)
+        {
+            case 0:
+                sceneName = "playScene1";
+                break;
+            case 1:
+                sceneName = "playScene2";
+                break;
+            case 2:
+                sceneName = "playScene3";
+                break;
+            case 3:
+                sceneName = "playScene4";
+                break;
+            default:
+                Debug.LogError("유효하지 않은 Grade Index: " + currentGradeIndex);
+                return;
+        }
+
+        Debug.Log("씬 로드: " + sceneName);
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void OnClickGameSetting()
     {
         Debug.Log("설정 버튼 누름");
