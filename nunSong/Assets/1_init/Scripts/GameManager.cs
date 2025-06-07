@@ -64,6 +64,13 @@ public class GameManager : MonoBehaviour
     private int currentGradeIndex = 0;
     private GameObject[] gradeCovers;
 
+    [Header("Song Detail UI by Grade")]
+    public GameObject detail_g1;
+    public GameObject detail_g2;
+    public GameObject detail_g3;
+    public GameObject detail_g4;
+    private GameObject[] detailUIs;
+
     void Start()
     {
         string sceneState = PlayerPrefs.GetString("InitSceneState", "INTRO");
@@ -361,6 +368,12 @@ public class GameManager : MonoBehaviour
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(false);
         ui_songDetail.SetActive(true); //곡 상세 화면을 띄움
+        detailUIs = new GameObject[] { detail_g1, detail_g2, detail_g3, detail_g4 };
+
+        for (int i = 0; i < detailUIs.Length; i++)
+        {
+            detailUIs[i].SetActive(i == currentGradeIndex);
+        }
     }
 
     public void OnClickBacktoSongSelect()
