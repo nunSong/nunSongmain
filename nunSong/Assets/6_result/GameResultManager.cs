@@ -51,8 +51,8 @@ public class GameResultManager : MonoBehaviour
         resultScoreText.text = score.ToString("D6");
 
         perfectText.text = ScoreManager.Instance.perfectCount.ToString();
-        greatText.text   = ScoreManager.Instance.greatCount.ToString();
-        goodText.text    = ScoreManager.Instance.goodCount.ToString();
-        missText.text    = ScoreManager.Instance.missCount.ToString();
+        greatText.text = ScoreManager.Instance.greatCount.ToString();
+        goodText.text = ScoreManager.Instance.goodCount.ToString();
+        missText.text = ScoreManager.Instance.missCount.ToString();
     }
 }
