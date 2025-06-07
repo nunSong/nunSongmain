@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class GameResultManager : MonoBehaviour
 {
@@ -51,8 +52,24 @@ public class GameResultManager : MonoBehaviour
         resultScoreText.text = score.ToString("D6");
 
         perfectText.text = ScoreManager.Instance.perfectCount.ToString();
-        greatText.text   = ScoreManager.Instance.greatCount.ToString();
-        goodText.text    = ScoreManager.Instance.goodCount.ToString();
-        missText.text    = ScoreManager.Instance.missCount.ToString();
+        greatText.text = ScoreManager.Instance.greatCount.ToString();
+        goodText.text = ScoreManager.Instance.goodCount.ToString();
+        missText.text = ScoreManager.Instance.missCount.ToString();
+    }
+
+    public void OnClickGoToMainScene()
+    {
+        SceneManager.LoadScene("initScene");
+    }
+
+    public void OnClickRestartGame()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
+    }
+
+    public void OnClickGameEnd()
+    {
+        Application.Quit();
     }
 }

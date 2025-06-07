@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
         SETTING,
         SELECTSONG,
         SONGDETAIL,
+        GAMERESULT,
         END
     }
 
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); //씬 전환 시에도 파괴되지 않도록 설정
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -169,7 +171,7 @@ public class GameManager : MonoBehaviour
 
     void GameState()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) //q입력하면 즉시 종료
+        if (Input.GetKeyDown(KeyCode.Escape)) //q입력하면 즉시 종료
         {
             gamestate = E_STATE.END;
         }
@@ -202,6 +204,9 @@ public class GameManager : MonoBehaviour
             case E_STATE.SONGDETAIL:
                 gamestate = E_STATE.NONE;
                 SongDetail();
+                break;
+
+            case E_STATE.GAMERESULT:
                 break;
 
             case E_STATE.END:
@@ -450,7 +455,7 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Debug.Log("게임종료");
-        // Application.Quit(); //게임 종료
+        Application.Quit(); //게임 종료
     }
 
     public void onClickGameResult()
