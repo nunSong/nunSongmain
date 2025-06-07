@@ -68,24 +68,8 @@ public class GameResultManager : MonoBehaviour
         SceneManager.LoadScene(currentScene);
     }
 
-    public void OnClickSelectSong()
+    public void OnClickGameEnd()
     {
-        SceneManager.LoadScene("initScene");
-        StartCoroutine(SetSongDetailUIActive());
+        Application.Quit();
     }
-    
-    private IEnumerator SetSongDetailUIActive()
-{
-    yield return new WaitForSeconds(0.1f); // 씬 로드 후 딜레이
-
-    GameObject canvas = GameObject.Find("canvas");
-    if (canvas != null)
-    {
-        canvas.transform.Find("IntroUI")?.gameObject.SetActive(false);
-        canvas.transform.Find("mainUI")?.gameObject.SetActive(false);
-        canvas.transform.Find("SettingUI")?.gameObject.SetActive(false);
-        canvas.transform.Find("SelectUI")?.gameObject.SetActive(false);
-        canvas.transform.Find("SongDetailUI")?.gameObject.SetActive(true);
-    }
-}
 }

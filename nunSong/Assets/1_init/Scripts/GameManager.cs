@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); //씬 전환 시에도 파괴되지 않도록 설정
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -454,7 +455,7 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Debug.Log("게임종료");
-        // Application.Quit(); //게임 종료
+        Application.Quit(); //게임 종료
     }
 
     public void onClickGameResult()
