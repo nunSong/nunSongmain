@@ -2413,9 +2413,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnClickLatencyBtn
+      - m_Target: {fileID: 656359156}
+        m_TargetAssemblyTypeName: GameResultManager, Assembly-CSharp
+        m_MethodName: OnClickGoToMainScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4222,9 +4222,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnClickLatencyBtn
+      - m_Target: {fileID: 656359156}
+        m_TargetAssemblyTypeName: GameResultManager, Assembly-CSharp
+        m_MethodName: OnClickRestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5310,9 +5310,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnClickLatencyBtn
+      - m_Target: {fileID: 656359156}
+        m_TargetAssemblyTypeName: GameResultManager, Assembly-CSharp
+        m_MethodName: OnClickSelectSong
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
