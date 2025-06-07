@@ -56,6 +56,14 @@ public class GameManager : MonoBehaviour
     public GameObject setting_ui_key;
     public GameObject setting_ui_graphics;
 
+    [Header("Album Cover")]
+    public GameObject cover_g1;
+    public GameObject cover_g2;
+    public GameObject cover_g3;
+    public GameObject cover_g4;
+    private int currentGradeIndex = 0;
+    private GameObject[] gradeCovers;
+
     void Start()
     {
         string sceneState = PlayerPrefs.GetString("InitSceneState", "INTRO");
@@ -309,6 +317,30 @@ public class GameManager : MonoBehaviour
         ui_mainCover.SetActive(false);
         ui_songSelect.SetActive(true); //곡 선택 화면을 띄움
         ui_songDetail.SetActive(false);
+
+        gradeCovers = new GameObject[] { cover_g1, cover_g2, cover_g3, cover_g4 };
+        currentGradeIndex = 0;
+        UpdateGradeCover();
+    }
+
+    public void OnClickPrevGrade()
+    {
+        currentGradeIndex = (currentGradeIndex - 1 + gradeCovers.Length) % gradeCovers.Length;
+        UpdateGradeCover();
+    }
+
+    public void OnClickNextGrade()
+    {
+        currentGradeIndex = (currentGradeIndex + 1) % gradeCovers.Length;
+        UpdateGradeCover();
+    }
+
+    private void UpdateGradeCover()
+    {
+        for (int i = 0; i < gradeCovers.Length; i++)
+        {
+            gradeCovers[i].SetActive(i == currentGradeIndex);
+        }
     }
 
     public void OnClickBacktoMain()
