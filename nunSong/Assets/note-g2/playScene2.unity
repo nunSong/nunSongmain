@@ -23554,6 +23554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePopup: {fileID: 612806205}
+  bgmSource: {fileID: 670969797}
 --- !u!114 &2030901957
 MonoBehaviour:
   m_ObjectHideFlags: 0
