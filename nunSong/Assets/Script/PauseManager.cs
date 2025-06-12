@@ -6,6 +6,8 @@ public class PauseManager : MonoBehaviour
     public static PauseManager Instance;
     public GameObject pausePopup;  // 일시정지 팝업 오브젝트
     private bool isPaused = false;
+    public AudioSource bgmSource;  // 배경음악 AudioSource 연결
+
 
     private void Awake()
     {
@@ -30,6 +32,15 @@ public class PauseManager : MonoBehaviour
         }
 
         Time.timeScale = isPaused ? 0 : 1;
+
+        // 오디오도 같이 Pause/UnPause 처리
+        if (bgmSource != null)
+        {
+            if (isPaused)
+                bgmSource.Pause();       // 음악 멈춤
+            else
+                bgmSource.UnPause();     // 음악 재개
+        }
     }
 
     public void Resume()
@@ -40,6 +51,11 @@ public class PauseManager : MonoBehaviour
             pausePopup.SetActive(false);
         }
         Time.timeScale = 1;
+        
+        if (bgmSource != null)
+        {
+            bgmSource.UnPause(); // 재개 시 음악도 다시 재생
+        }
     }
 
     public void Restart()
